@@ -1,9 +1,14 @@
 import React from 'react';
+import { ThemeProvider } from 'ustudio-ui/theme';
 import './App.css';
 import Main from './components/Main';
 
 function App() {
-  return <Main compiler="typescript" framework="React" />;
+  return (
+    <ThemeProvider>
+      <Main />
+    </ThemeProvider>
+  );
 }
 
 export default App;
