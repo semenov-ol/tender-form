@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/tender-form/static/css/main.27fd15f6.chunk.css",
+    "main.js": "/tender-form/static/js/main.4ad6f55e.chunk.js",
+    "main.js.map": "/tender-form/static/js/main.4ad6f55e.chunk.js.map",
+    "runtime-main.js": "/tender-form/static/js/runtime-main.4f17fb24.js",
+    "runtime-main.js.map": "/tender-form/static/js/runtime-main.4f17fb24.js.map",
+    "static/js/2.42015214.chunk.js": "/tender-form/static/js/2.42015214.chunk.js",
+    "static/js/2.42015214.chunk.js.map": "/tender-form/static/js/2.42015214.chunk.js.map",
+    "index.html": "/tender-form/index.html",
+    "precache-manifest.98be9ccbbe18830c91f6cae5d18b273d.js": "/tender-form/precache-manifest.98be9ccbbe18830c91f6cae5d18b273d.js",
+    "service-worker.js": "/tender-form/service-worker.js",
+    "static/css/main.27fd15f6.chunk.css.map": "/tender-form/static/css/main.27fd15f6.chunk.css.map",
+    "static/js/2.42015214.chunk.js.LICENSE.txt": "/tender-form/static/js/2.42015214.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4f17fb24.js",
+    "static/js/2.42015214.chunk.js",
+    "static/css/main.27fd15f6.chunk.css",
+    "static/js/main.4ad6f55e.chunk.js"
+  ]
+}
