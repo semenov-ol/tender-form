@@ -11,63 +11,16 @@ import { css } from 'styled-components';
 
 import { reducer } from '../../context/Reducer';
 import { Data } from '../../types';
-import { Unit } from '../../types';
+import AdditionalLots from '../AdditionalLots';
+import { FormContext } from '../../context/Context';
 
 export const Main = () => {
-	const initialState: Data = {
-		tender: {
-			title: '',
-			description: '',
-			classification: {
-				scheme: 'CPV',
-				id: '',
-				description: ''
-			},
-			lots: [
-			],
-			items: [
-			]
-		}
-	};
-	const [ state, dispatch ]: any = useReducer<any>(reducer, initialState);
-	const id = uuid();
+	const { state, dispatch } = React.useContext(FormContext);
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		console.log(state);
 	};
-
-	const fieldRender = () => {
-    const id = '12345'
-		return (
-      <>
-			<TextInput
-				isRequired={false}
-				placeholder="TItle of additional info"
-				onChange={(e) => dispatch({ type: 'ADDITIONAL', payload: {title: e, id: id} })}
-			/>
-      <TextInput
-				isRequired={false}
-				placeholder="description of additional info"
-				onChange={(e) => dispatch({ type: 'ADDITIONAL_DESC', payload: {desc: e, id: id} })}
-			/>
-      <RadioGroup
-					styled={{
-						RadioGroup: css`margin: 30px;`
-          }}
-					direction="row"
-					name="unit2"
-					onChange={(e) => dispatch({ type: 'ADD_UNIT2', payload: {title: e, id: id} })}
-					options={{
-						'1': { label: 'metre', value: '123' },
-						'2': { label: 'kilo', value: '312' }
-					}}
-				/>
-    </>
-		);
-  };
-  
-  const id1 = uuid()
 
 	return (
 		<Flex
@@ -100,7 +53,6 @@ export const Main = () => {
 							isRequired
 							name="title"
 							placeholder="Tender Title"
-							value={state.title}
 							onChange={(e) => dispatch({ type: 'ADD_TITLE', payload: e })}
 						/>
 					</label>
@@ -116,24 +68,23 @@ export const Main = () => {
 							isRequired
 							name="description"
 							placeholder="Tender description"
-							value={state.description}
 							onChange={(e) => dispatch({ type: 'ADD_DESC', payload: e })}
 						/>
 					</label>
 				</Flex>
-				<RadioGroup
+				{/* <RadioGroup
 					styled={{
 						RadioGroup: css`margin: 30px;`
           }}
 					direction="row"
 					name="unit"
-					onChange={(e) => dispatch({ type: 'ADD_UNIT', payload: {title: e, id: id1} })}
+					onChange={(e) => dispatch({ type: 'ADD_UNIT', payload: {title: e} })}
 					options={{
 						'1': { label: 'metre', value: '123' },
 						'2': { label: 'kilo', value: '312' }
 					}}
-				/>
-				{fieldRender()}
+				/> */}
+				<AdditionalLots />
 				<Flex
 					alignment={{
 						horizontal: 'end'
