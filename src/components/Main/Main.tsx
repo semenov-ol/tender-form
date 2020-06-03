@@ -6,9 +6,19 @@ import { TextInput } from 'ustudio-ui';
 import { TextArea } from 'ustudio-ui';
 import Button from 'ustudio-ui/components/Button';
 import { css } from 'styled-components';
+import styled from 'styled-components';
+import 'lodash/set';
 
 import AdditionalLots from '../AdditionalLots';
 import { FormContext } from '../../context/Context';
+
+const Form = styled.form`
+  width: 40%;
+`;
+
+const Label = styled.label`
+  width: 100%;
+`;
 
 export const Main = () => {
   const { state, dispatch } = useContext(FormContext);
@@ -36,43 +46,64 @@ export const Main = () => {
       >
         Create Tender
       </Text>
-      <form className="form" onSubmit={handleSubmit}>
+      <Form className="form" onSubmit={handleSubmit}>
         <Text variant="span"> Please fill in the fields: </Text>
         <Flex
           direction="row"
-          alignment={{ horizontal: 'space-between' }}
+          alignment={{ horizontal: 'center' }}
           styled={{
             Flex: css`
               margin: 30px;
             `,
           }}
         >
-          <label>
+          <Label>
             Tender title:
             <TextInput
               isRequired
               name="title"
               placeholder="Tender Title"
-              onChange={(e) => dispatch({ type: 'ADD_TITLE', payload: e })}
+              onChange={(value) => dispatch({ type: 'set', payload: value, path: 'tender.title' })}
             />
-          </label>
+          </Label>
         </Flex>
         <Flex
+          alignment={{ horizontal: 'center' }}
           styled={{
             Flex: css`
               margin: 30px;
             `,
           }}
         >
-          <label>
+          <Label>
             Tender description
             <TextArea
               isRequired
               name="description"
               placeholder="Tender description"
-              onChange={(e) => dispatch({ type: 'ADD_DESC', payload: e })}
+              onChange={(value) => dispatch({ type: 'set', payload: value, path: 'tender.description' })}
             />
-          </label>
+          </Label>
+        </Flex>
+        <Flex>
+          <Label>
+            Scheme:
+            <TextInput isDisabled={true} placeholder="CPV" value="CPV" />
+          </Label>
+          <Label>
+            Scheme id:
+            <TextInput
+              placeholder="id"
+              onChange={(value) => dispatch({ type: 'set', payload: value, path: 'tender.classification.id' })}
+            />
+          </Label>
+          <Label>
+            Scheme description:
+            <TextInput
+              placeholder="description"
+              onChange={(value) => dispatch({ type: 'set', payload: value, path: 'tender.classification.description' })}
+            />
+          </Label>
         </Flex>
         {/* <RadioGroup
 					styled={{
@@ -99,7 +130,7 @@ export const Main = () => {
         >
           <Button>Submit</Button>
         </Flex>
-      </form>
+      </Form>
     </Flex>
   );
 };

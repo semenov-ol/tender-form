@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { TextInput } from 'ustudio-ui';
 import Button from 'ustudio-ui/components/Button';
 import Flex from 'ustudio-ui/components/Flex';
@@ -11,22 +11,32 @@ import { FormContext } from '../../context/Context';
 type LotProps = {
   id: string;
   title: string;
+  index: number;
 };
 
-export const Lot = ({ id, title }: LotProps) => {
+export const Lot = ({ id, title, index }: LotProps) => {
   const { state, dispatch } = useContext(FormContext);
-
-  const removeLot = (id: string) => {
-    dispatch({ type: 'REMOVE_LOT', payload: { id: id } });
-  };
-
   const itemId = uuid();
 
-  const addItem = () => {
-    dispatch({ type: 'ADD_ITEM', payload: { relatedId: id, id: itemId } });
+  const removeLot = (id: string) => {
+    dispatch({ type: 'REMOVE_LOT', payload: { id: id }, path: `tender.lots[${index}]` });
   };
 
-  const fields = state.tender.items.map((item: any) => <Item relatedId={id} key={itemId} value={item} />);
+  const addItem = () => {
+    dispatch({
+      type: 'set',
+      payload: { relatedLot: id, id: itemId, description: '', classification: { sheme: 'CPV' } },
+      path: `tender.items[${state.tender.items.length}]`,
+    });
+  };
+
+  const fields = state.tender.items.map((item: any, index: number) => {
+    if (item.relatedLot === id) {
+      return <Item relatedLot={id} key={item.id} value={item} index={index} />;
+    } else {
+      return null;
+    }
+  });
 
   return (
     <>
@@ -50,8 +60,7 @@ export const Lot = ({ id, title }: LotProps) => {
             isRequired
             name="title"
             placeholder="Lot Title"
-            value={title}
-            onChange={(e) => dispatch({ type: 'EDIT_LOT', payload: { title: e, id: id } })}
+            onChange={(value) => dispatch({ type: 'set', payload: value, path: `tender.lots[${index}].title` })}
           />
         </label>
         {fields}
