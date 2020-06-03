@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { TextInput } from 'ustudio-ui';
 import Button from 'ustudio-ui/components/Button';
 import Flex from 'ustudio-ui/components/Flex';
+import Text from 'ustudio-ui/components/Text';
 import RadioGroup from 'ustudio-ui/components/RadioGroup';
 import { css } from 'styled-components';
 
@@ -15,6 +16,10 @@ type ItemType = {
 
 export const Item = ({ relatedLot, index }: ItemType) => {
   const { state, dispatch } = useContext(FormContext);
+
+  const removeItem = () => {
+    dispatch({ type: 'remove_item', payload: index, path: '' });
+  };
 
   return (
     <>
@@ -36,11 +41,11 @@ export const Item = ({ relatedLot, index }: ItemType) => {
         </label>
         <Flex margin={{ top: 'regular', bottom: 'regular' }}>
           <label>
-            Scheme:
+            <Text variant="small">Scheme:</Text>
             <TextInput isDisabled={true} placeholder="CPV" value="CPV" />
           </label>
           <label>
-            Scheme id:
+            <Text variant="small">Scheme id:</Text>
             <TextInput
               placeholder="id"
               onChange={(value) =>
@@ -49,7 +54,7 @@ export const Item = ({ relatedLot, index }: ItemType) => {
             />
           </label>
           <label>
-            Scheme description:
+            <Text variant="small"> Scheme description:</Text>
             <TextInput
               placeholder="description"
               onChange={(value) =>
@@ -89,7 +94,7 @@ export const Item = ({ relatedLot, index }: ItemType) => {
           }}
         />
         <Flex alignment={{ horizontal: 'end' }} margin={{ top: 'regular' }}>
-          <Button appearance="outlined" intent="negative">
+          <Button appearance="outlined" intent="negative" onClick={removeItem}>
             Remove Item
           </Button>
         </Flex>

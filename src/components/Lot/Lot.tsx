@@ -25,7 +25,13 @@ export const Lot = ({ id, title, index }: LotProps) => {
   const addItem = () => {
     dispatch({
       type: 'set',
-      payload: { relatedLot: id, id: itemId, description: '', classification: { sheme: 'CPV' } },
+      payload: {
+        relatedLot: id,
+        id: itemId,
+        description: '',
+        classification: { sheme: 'CPV' },
+        additionalClassification: [],
+      },
       path: `tender.items[${state.tender.items.length}]`,
     });
   };
@@ -65,7 +71,9 @@ export const Lot = ({ id, title, index }: LotProps) => {
         </label>
         {fields}
         <Flex margin={{ top: 'medium' }} alignment={{ horizontal: 'space-between' }}>
-          <Button onClick={addItem}>Add Item</Button>
+          <Button appearance="outlined" intent="positive" onClick={addItem}>
+            Add Item
+          </Button>
         </Flex>
       </Flex>
     </>

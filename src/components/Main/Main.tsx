@@ -122,11 +122,7 @@ export const Main = () => {
           alignment={{
             horizontal: 'end',
           }}
-          styled={{
-            Flex: css`
-              margin-top: 30px;
-            `,
-          }}
+          margin={{ top: 'medium', bottom: 'large' }}
         >
           <Button>Submit</Button>
         </Flex>
