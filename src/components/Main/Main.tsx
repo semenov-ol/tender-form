@@ -42,6 +42,7 @@ export const Main = () => {
 
 			<Form className="form" onSubmit={handleSubmit}>
 				<Text variant="span"> Please fill in the fields: </Text>
+
 				<Flex
 					direction="row"
 					alignment={{ horizontal: 'center' }}
