@@ -9,19 +9,14 @@ import Lot from '../Lot';
 export const AdditionalLots = () => {
   const { state, dispatch } = useContext(FormContext);
 
-  const lots = state.tender.lots.map((lot, index) => {
-    return <Lot id={lot.id} title={lot.title} key={lot.id} index={index} />;
-  });
-
-  const id = uuid();
-
   const addLot = () => {
-    dispatch({ type: 'set', payload: { title: '', id: id }, path: `tender.lots[${state.tender.lots.length}]` });
+    dispatch({ type: 'set', payload: { title: '', id: uuid() }, path: `tender.lots[${state.tender.lots.length}]` });
   };
 
   return (
     <>
-      {lots}
+      {state.tender.lots.map((lot, index) => <Lot id={lot.id} title={lot.title} key={lot.id} index={index} />)}
+      
       <Flex margin={{ top: 'medium' }} alignment={{ horizontal: 'space-around' }}>
         <Button intent="positive" onClick={addLot}>
           Add lot

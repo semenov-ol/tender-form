@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { TextInput } from 'ustudio-ui';
+import TextInput from 'ustudio-ui/components/Input/TextInput';
 import Button from 'ustudio-ui/components/Button';
 import Flex from 'ustudio-ui/components/Flex';
 import Text from 'ustudio-ui/components/Text';
@@ -29,10 +29,6 @@ export const Item = ({ relatedLot, index }: ItemType) => {
       path: `tender.items[${index}].additionalClassification[${state.tender.items[index].additionalClassification.length}]`,
     });
   };
-
-  const classification = state.tender.items[index].additionalClassification.map((item, classIndex) => (
-    <AddClassification index={index} classIndex={classIndex} key={classIndex} />
-  ));
 
   return (
     <>
@@ -106,7 +102,9 @@ export const Item = ({ relatedLot, index }: ItemType) => {
             `,
           }}
         />
-        {classification}
+        {state.tender.items[index].additionalClassification.map((item, classIndex) => (
+        <AddClassification index={index} classIndex={classIndex} key={classIndex} />
+        ))}
         <Flex>
           <Button onClick={addClassification}>Add Classification</Button>
         </Flex>

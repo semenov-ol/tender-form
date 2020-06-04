@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { TextInput } from 'ustudio-ui';
+import TextInput from 'ustudio-ui/components/Input/TextInput';
 import Button from 'ustudio-ui/components/Button';
 import Flex from 'ustudio-ui/components/Flex';
 import { css } from 'styled-components';
@@ -36,13 +36,7 @@ export const Lot = ({ id, title, index }: LotProps) => {
     });
   };
 
-  const fields = state.tender.items.map((item: any, index: number) => {
-    if (item.relatedLot === id) {
-      return <Item relatedLot={id} key={item.id} value={item} index={index} />;
-    } else {
-      return null;
-    }
-  });
+  const fields = state.tender.items.filter((item)=> item.relatedLot === id).map((item: any, index: number) => <Item relatedLot={id} key={item.id} value={item} index={index} />)
 
   return (
     <>
