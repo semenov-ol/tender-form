@@ -103,7 +103,7 @@ export const Item = ({ relatedLot, index }: ItemType) => {
           }}
         />
         {state.tender.items[index].additionalClassification.map((item, classIndex) => (
-        <AddClassification index={index} classIndex={classIndex} key={classIndex} />
+          <AddClassification index={index} classIndex={classIndex} key={classIndex} />
         ))}
         <Flex>
           <Button onClick={addClassification}>Add Classification</Button>

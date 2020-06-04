@@ -36,7 +36,9 @@ export const Lot = ({ id, title, index }: LotProps) => {
     });
   };
 
-  const fields = state.tender.items.filter((item)=> item.relatedLot === id).map((item: any, index: number) => <Item relatedLot={id} key={item.id} value={item} index={index} />)
+  const fields = state.tender.items
+    .filter((item) => item.relatedLot === id)
+    .map((item: any, index: number) => <Item relatedLot={id} key={item.id} value={item} index={index} />);
 
   return (
     <>

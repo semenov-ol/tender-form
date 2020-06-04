@@ -15,8 +15,10 @@ export const AdditionalLots = () => {
 
   return (
     <>
-      {state.tender.lots.map((lot, index) => <Lot id={lot.id} title={lot.title} key={lot.id} index={index} />)}
-      
+      {state.tender.lots.map((lot, index) => (
+        <Lot id={lot.id} title={lot.title} key={lot.id} index={index} />
+      ))}
+
       <Flex margin={{ top: 'medium' }} alignment={{ horizontal: 'space-around' }}>
         <Button intent="positive" onClick={addLot}>
           Add lot
