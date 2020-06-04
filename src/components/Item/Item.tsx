@@ -7,6 +7,7 @@ import RadioGroup from 'ustudio-ui/components/RadioGroup';
 import { css } from 'styled-components';
 
 import { FormContext } from '../../context/Context';
+import AddClassification from '../AddClassification';
 
 type ItemType = {
   relatedLot: string;
@@ -20,6 +21,18 @@ export const Item = ({ relatedLot, index }: ItemType) => {
   const removeItem = () => {
     dispatch({ type: 'remove_item', payload: index, path: '' });
   };
+
+  const addClassification = () => {
+    dispatch({
+      type: 'set',
+      payload: { scheme: 'CPV', id: '', description: '' },
+      path: `tender.items[${index}].additionalClassification[${state.tender.items[index].additionalClassification.length}]`,
+    });
+  };
+
+  const classification = state.tender.items[index].additionalClassification.map((item, classIndex) => (
+    <AddClassification index={index} classIndex={classIndex} key={classIndex} />
+  ));
 
   return (
     <>
@@ -93,6 +106,10 @@ export const Item = ({ relatedLot, index }: ItemType) => {
             `,
           }}
         />
+        {classification}
+        <Flex>
+          <Button onClick={addClassification}>Add Classification</Button>
+        </Flex>
         <Flex alignment={{ horizontal: 'end' }} margin={{ top: 'regular' }}>
           <Button appearance="outlined" intent="negative" onClick={removeItem}>
             Remove Item

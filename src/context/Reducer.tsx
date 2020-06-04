@@ -47,6 +47,30 @@ export const reducer = (state: any, action: any) => {
           items: newItem,
         },
       };
+
+    case 'remove_class':
+      const itemIndex = action.payload.index;
+      const classIndex = action.payload.classIndex;
+
+      const currentItem = state.tender.items[itemIndex];
+
+      return {
+        tender: {
+          ...state.tender,
+          items: [
+            ...state.tender.items.slice(0, itemIndex),
+            {
+              ...currentItem,
+              additionalClassification: [
+                ...state.tender.items[itemIndex].additionalClassification.slice(0, classIndex),
+                ...state.tender.items[itemIndex].additionalClassification.slice(classIndex + 1),
+              ],
+            },
+            ...state.tender.items.slice(itemIndex + 1),
+          ],
+        },
+      };
+
     default:
       return state;
   }
