@@ -48,11 +48,13 @@ export const Item = ({ relatedLot, index }: ItemType) => {
             onChange={(value) => dispatch({ type: 'set', payload: value, path: `tender.items[${index}].description` })}
           />
         </label>
+
         <Flex margin={{ top: 'regular', bottom: 'regular' }}>
           <label>
             <Text variant="small">Scheme:</Text>
             <TextInput isDisabled={true} placeholder="CPV" value="CPV" />
           </label>
+
           <label>
             <Text variant="small">Scheme id:</Text>
             <TextInput
@@ -62,6 +64,7 @@ export const Item = ({ relatedLot, index }: ItemType) => {
               }
             />
           </label>
+
           <label>
             <Text variant="small"> Scheme description:</Text>
             <TextInput
@@ -76,9 +79,10 @@ export const Item = ({ relatedLot, index }: ItemType) => {
           Quantity:
           <TextInput
             name="quantity"
-            onChange={(v) => dispatch({ type: 'set', payload: v, path: `tender.items[${index}].quantity` })}
+            onChange={(value) => dispatch({ type: 'set', payload: value, path: `tender.items[${index}].quantity` })}
           />
         </label>
+
         <RadioGroup
           direction="row"
           name="unit"
@@ -92,8 +96,8 @@ export const Item = ({ relatedLot, index }: ItemType) => {
               value: 321,
             },
           }}
-          onChange={(v) =>
-            dispatch({ type: 'set', payload: { id: v.value, name: v.label }, path: `tender.items[${index}].unit` })
+          onChange={({ value, label }) =>
+            dispatch({ type: 'set', payload: { id: value, name: label }, path: `tender.items[${index}].unit` })
           }
           styled={{
             RadioGroup: css`
@@ -102,14 +106,17 @@ export const Item = ({ relatedLot, index }: ItemType) => {
             `,
           }}
         />
+
         {state.tender.items[index].additionalClassification.map((item, classIndex) => (
           <AddClassification index={index} classIndex={classIndex} key={classIndex} />
         ))}
+
         <Flex>
-          <Button onClick={addClassification}>Add Classification</Button>
+          <Button type='button' onClick={addClassification}>Add Classification</Button>
         </Flex>
+
         <Flex alignment={{ horizontal: 'end' }} margin={{ top: 'regular' }}>
-          <Button appearance="outlined" intent="negative" onClick={removeItem}>
+          <Button type='button' appearance="outlined" intent="negative" onClick={removeItem}>
             Remove Item
           </Button>
         </Flex>

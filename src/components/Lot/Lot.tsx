@@ -16,7 +16,6 @@ type LotProps = {
 
 export const Lot = ({ id, title, index }: LotProps) => {
   const { state, dispatch } = useContext(FormContext);
-  const itemId = uuid();
 
   const removeLot = (id: string) => {
     dispatch({ type: 'REMOVE_LOT', payload: { id: id }, path: `tender.lots[${index}]` });
@@ -27,7 +26,7 @@ export const Lot = ({ id, title, index }: LotProps) => {
       type: 'set',
       payload: {
         relatedLot: id,
-        id: itemId,
+        id: uuid(),
         description: '',
         classification: { sheme: 'CPV' },
         additionalClassification: [],
@@ -36,7 +35,7 @@ export const Lot = ({ id, title, index }: LotProps) => {
     });
   };
 
-  const fields = state.tender.items
+  const items = state.tender.items
     .filter((item) => item.relatedLot === id)
     .map((item: any, index: number) => <Item relatedLot={id} key={item.id} value={item} index={index} />);
 
@@ -56,6 +55,7 @@ export const Lot = ({ id, title, index }: LotProps) => {
         <Button appearance="outlined" intent="negative" onClick={() => removeLot(id)}>
           Remove Lot
         </Button>
+
         <label>
           Lot Title:
           <TextInput
@@ -65,9 +65,11 @@ export const Lot = ({ id, title, index }: LotProps) => {
             onChange={(value) => dispatch({ type: 'set', payload: value, path: `tender.lots[${index}].title` })}
           />
         </label>
-        {fields}
+
+        {items}
+
         <Flex margin={{ top: 'medium' }} alignment={{ horizontal: 'space-between' }}>
-          <Button appearance="outlined" intent="positive" onClick={addItem}>
+          <Button type='button' appearance="outlined" intent="positive" onClick={addItem}>
             Add Item
           </Button>
         </Flex>

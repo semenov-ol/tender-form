@@ -20,7 +20,7 @@ export const AdditionalLots = () => {
       ))}
 
       <Flex margin={{ top: 'medium' }} alignment={{ horizontal: 'space-around' }}>
-        <Button intent="positive" onClick={addLot}>
+        <Button type='button' intent="positive" onClick={addLot}>
           Add lot
         </Button>
       </Flex>
