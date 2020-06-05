@@ -5,6 +5,7 @@ import Flex from 'ustudio-ui/components/Flex';
 import Text from 'ustudio-ui/components/Text';
 import RadioGroup from 'ustudio-ui/components/RadioGroup';
 import { css } from 'styled-components';
+import { v4 as uuid } from 'uuid';
 
 import { FormContext } from '../../context/Context';
 import AddClassification from '../AddClassification';
@@ -13,9 +14,10 @@ type ItemType = {
   relatedLot: string;
   value: unknown;
   index: number;
+  itemId: string;
 };
 
-export const Item = ({ relatedLot, index }: ItemType) => {
+export const Item = ({ relatedLot, index, itemId }: ItemType) => {
   const { state, dispatch } = useContext(FormContext);
 
   const removeItem = () => {
@@ -24,8 +26,8 @@ export const Item = ({ relatedLot, index }: ItemType) => {
 
   const addClassification = () => {
     dispatch({
-      type: 'set',
-      payload: { scheme: 'CPV', id: '', description: '' },
+      type: 'add_class',
+      payload: { scheme: 'CPV', id: '', description: '', relatedLot: relatedLot, index: index, itemId: itemId },
       path: `tender.items[${index}].additionalClassification[${state.tender.items[index].additionalClassification.length}]`,
     });
   };
@@ -45,7 +47,13 @@ export const Item = ({ relatedLot, index }: ItemType) => {
         <label>
           Description
           <TextInput
-            onChange={(value) => dispatch({ type: 'set', payload: value, path: `tender.items[${index}].description` })}
+            onChange={(value) =>
+              dispatch({
+                type: 'set_item_desc',
+                payload: { value: value, relatedLot: relatedLot, itemId: itemId },
+                path: ``,
+              })
+            }
           />
         </label>
 
@@ -60,7 +68,7 @@ export const Item = ({ relatedLot, index }: ItemType) => {
             <TextInput
               placeholder="id"
               onChange={(value) =>
-                dispatch({ type: 'set', payload: value, path: `tender.items[${index}].classification.id` })
+                dispatch({ type: 'set_class_id', payload: { value: value, itemId: itemId }, path: `` })
               }
             />
           </label>
@@ -70,7 +78,7 @@ export const Item = ({ relatedLot, index }: ItemType) => {
             <TextInput
               placeholder="description"
               onChange={(value) =>
-                dispatch({ type: 'set', payload: value, path: `tender.items.[${index}].classification.description` })
+                dispatch({ type: 'set_class_desc', payload: { value: value, itemId: itemId }, path: `` })
               }
             />
           </label>
@@ -79,7 +87,9 @@ export const Item = ({ relatedLot, index }: ItemType) => {
           Quantity:
           <TextInput
             name="quantity"
-            onChange={(value) => dispatch({ type: 'set', payload: value, path: `tender.items[${index}].quantity` })}
+            onChange={(value) =>
+              dispatch({ type: 'set_quantity', payload: { value: value, itemId: itemId }, path: `` })
+            }
           />
         </label>
 
@@ -97,7 +107,7 @@ export const Item = ({ relatedLot, index }: ItemType) => {
             },
           }}
           onChange={({ value, label }) =>
-            dispatch({ type: 'set', payload: { id: value, name: label }, path: `tender.items[${index}].unit` })
+            dispatch({ type: 'set_unit', payload: { id: value, name: label, itemId: itemId }, path: `` })
           }
           styled={{
             RadioGroup: css`
@@ -107,16 +117,26 @@ export const Item = ({ relatedLot, index }: ItemType) => {
           }}
         />
 
-        {state.tender.items[index].additionalClassification.map((item, classIndex) => (
-          <AddClassification index={index} classIndex={classIndex} key={classIndex} />
-        ))}
+        {state.tender.items
+          .filter((item) => item.relatedLot === relatedLot)
+          [index].additionalClassification.map((item, classIndex) => (
+            <AddClassification
+              index={index}
+              classIndex={classIndex}
+              key={uuid()}
+              relatedLot={relatedLot}
+              itemId={itemId}
+            />
+          ))}
 
         <Flex>
-          <Button type='button' onClick={addClassification}>Add Classification</Button>
+          <Button type="button" onClick={addClassification}>
+            Add Classification
+          </Button>
         </Flex>
 
         <Flex alignment={{ horizontal: 'end' }} margin={{ top: 'regular' }}>
-          <Button type='button' appearance="outlined" intent="negative" onClick={removeItem}>
+          <Button type="button" appearance="outlined" intent="negative" onClick={removeItem}>
             Remove Item
           </Button>
         </Flex>

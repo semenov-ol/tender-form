@@ -21,14 +21,15 @@ export const Lot = ({ id, title, index }: LotProps) => {
     dispatch({ type: 'REMOVE_LOT', payload: { id: id }, path: `tender.lots[${index}]` });
   };
 
+  const itemId = uuid();
   const addItem = () => {
     dispatch({
       type: 'set',
       payload: {
         relatedLot: id,
-        id: uuid(),
+        id: itemId,
         description: '',
-        classification: { sheme: 'CPV' },
+        classification: { scheme: 'CPV' },
         additionalClassification: [],
       },
       path: `tender.items[${state.tender.items.length}]`,
@@ -37,7 +38,9 @@ export const Lot = ({ id, title, index }: LotProps) => {
 
   const items = state.tender.items
     .filter((item) => item.relatedLot === id)
-    .map((item: any, index: number) => <Item relatedLot={id} key={item.id} value={item} index={index} />);
+    .map((item: any, index: number) => (
+      <Item relatedLot={id} key={item.id} value={item} index={index} itemId={item.id} />
+    ));
 
   return (
     <>
@@ -69,7 +72,7 @@ export const Lot = ({ id, title, index }: LotProps) => {
         {items}
 
         <Flex margin={{ top: 'medium' }} alignment={{ horizontal: 'space-between' }}>
-          <Button type='button' appearance="outlined" intent="positive" onClick={addItem}>
+          <Button type="button" appearance="outlined" intent="positive" onClick={addItem}>
             Add Item
           </Button>
         </Flex>
