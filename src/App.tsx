@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useReducer } from 'react';
+import { ThemeProvider } from 'ustudio-ui/theme';
 import './App.css';
+import Main from './components/Main';
+import { FormContext } from './context/Context';
+import { Data } from './types';
+import { reducer } from './context/Reducer';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const initialState: Data = {
+		tender: {
+			title: '',
+			description: '',
+			classification: {
+				scheme: 'CPV',
+				id: '',
+				description: ''
+			},
+			lots: [],
+			items: []
+		}
+	};
+
+	const [ state, dispatch ] = useReducer(reducer, initialState);
+	return (
+		<ThemeProvider>
+			<FormContext.Provider value={{ state, dispatch }}>
+				<Main />
+			</FormContext.Provider>
+		</ThemeProvider>
+	);
 }
 
 export default App;
